@@ -1,0 +1,53 @@
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+
+def contactsLibrary = "contacts_so"
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 30
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_TOOLCHAIN=clang",
+                        "-DANDROID_PLATFORM=android-16",
+                        "-DCONTACTS_LIBRARY=${contactsLibrary.toString()}",
+                        "-DANDROID_STL=c++_static"
+            }
+        }
+
+        buildConfigField("String", "CONTACTS_LIBRARY",
+                "\"${contactsLibrary}\"")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file("CMakeLists.txt")
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation "junit:junit:$junit_version"
+
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit_version"
+    androidTestImplementation "androidx.test:runner:$android_test_runner_version"
+}
+
+repositories {
+    mavenCentral()
+}
