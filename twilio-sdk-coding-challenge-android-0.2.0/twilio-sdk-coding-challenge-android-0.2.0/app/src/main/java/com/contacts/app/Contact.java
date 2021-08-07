@@ -1,20 +1,26 @@
 package com.contacts.app;
 
 public class Contact {
-    String name;
+    String firstName;
+    String lastName;
     String phoneNumber;
 
-    public Contact(String name, String phone) {
-        this.name = name;
+    public Contact(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phoneNumber = phone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getName() {
-        return name;
+        return formatName();
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -23,5 +29,9 @@ public class Contact {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    private String formatName() {
+        return firstName + " " + lastName;
     }
 }

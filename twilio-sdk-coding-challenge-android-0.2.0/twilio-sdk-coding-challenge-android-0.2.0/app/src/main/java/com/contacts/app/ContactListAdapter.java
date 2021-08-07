@@ -40,7 +40,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
         // Set item views based on your views and data model
         TextView nameTextView = holder.nameTextView;
-        TextView phoneTextView = holder.nameTextView;
+        TextView phoneTextView = holder.phoneTextView;
         nameTextView.setText(contact.getName());
         phoneTextView.setText(contact.getPhoneNumber());
     }
