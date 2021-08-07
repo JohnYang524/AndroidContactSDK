@@ -65,8 +65,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.contact_name);
-            phoneTextView = (TextView) itemView.findViewById(R.id.contact_phone_num);
+            nameTextView = (TextView) itemView.findViewById(R.id.tv_contact_name);
+            phoneTextView = (TextView) itemView.findViewById(R.id.tv_contact_phone_num);
         }
     }
 }

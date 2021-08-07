@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,18 +48,17 @@ public class ContactsActivity extends AppCompatActivity {
         contactList.addItemDecoration(mDividerItemDecoration);
 
         // add floating action button click
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton btn_add = findViewById(R.id.fab_add);
+        btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                createNewContact();
             }
         });
     }
 
     private void createNewContact() {
-        Intent intent = new Intent(this, CreateContactAcitivity.class);
+        Intent intent = new Intent(this, CreateContactActivity.class);
 //        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
 //        String message = editText.getText().toString();
 //        intent.putExtra(EXTRA_MESSAGE, message);
