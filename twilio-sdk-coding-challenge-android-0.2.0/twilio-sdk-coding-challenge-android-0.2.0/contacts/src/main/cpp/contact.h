@@ -8,11 +8,13 @@ namespace contacts {
 class Contact {
 
  public:
-    Contact(std::string first_name,
+    Contact(std::string id,
+            std::string first_name,
             std::string last_name,
             std::string phone_number);
 
  private:
+    const std::string id_;
     const std::string first_name_;
     const std::string last_name_;
     const std::string phone_number_;
