@@ -1,11 +1,11 @@
 package com.contacts.app;
 
-public class Contact {
+public class MyContact {
     String firstName;
     String lastName;
     String phoneNumber;
 
-    public Contact(String firstName, String lastName, String phone) {
+    public MyContact(String firstName, String lastName, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phone;
