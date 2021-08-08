@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
@@ -18,7 +20,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     private List<Contact> mContacts;
 
     public ContactListAdapter(List<Contact> contacts) {
-        mContacts = contacts;
+        mContacts = new ArrayList<>();
+        mContacts.addAll(contacts);
     }
 
     @NonNull
@@ -70,5 +73,11 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             nameTextView = (TextView) itemView.findViewById(R.id.tv_contact_name);
             phoneTextView = (TextView) itemView.findViewById(R.id.tv_contact_phone_num);
         }
+    }
+
+    public void notifyDataChange(List<Contact> contacts) {
+        mContacts.clear();
+        mContacts.addAll(contacts);
+        notifyDataSetChanged();
     }
 }

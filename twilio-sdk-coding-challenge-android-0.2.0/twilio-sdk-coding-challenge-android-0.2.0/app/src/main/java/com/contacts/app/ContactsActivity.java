@@ -2,6 +2,7 @@ package com.contacts.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,22 +30,28 @@ import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
 
+    List<Contact> contacts = new ArrayList<>();
+    ContactListAdapter adapter;
+    RecyclerView contactList;
+
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
+        init();
+
         // Lookup the recyclerview in activity layout
-        RecyclerView contactList = (RecyclerView) findViewById(R.id.contactList);
+        contactList = (RecyclerView) findViewById(R.id.contactList);
         // Initialize contacts
-        List<Contact> contacts = createTestList();
+//        contacts = createTestList();
         // Create adapter passing in the sample user data
-        ContactListAdapter adapter = new ContactListAdapter(contacts);
-        // Attach the adapter to the recyclerview to populate items
-        contactList.setAdapter(adapter);
+        adapter = new ContactListAdapter(contacts);
         // Set layout manager to position the items
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         contactList.setLayoutManager(layoutManager);
+        // Attach the adapter to the recyclerview to populate items
+        contactList.setAdapter(adapter);
         // Divider
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(this,
                 layoutManager.getOrientation());
@@ -55,10 +62,16 @@ public class ContactsActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), Contacts.getInstance().getContactList(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), Contacts.getInstance().getContactListFromServer(), Toast.LENGTH_SHORT).show();
                 createNewContact();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Contacts.getInstance().syncContactList(this);
     }
 
     private void createNewContact() {
@@ -74,5 +87,27 @@ public class ContactsActivity extends AppCompatActivity {
         testList.add(new Contact("John", "Doe", "858-888-8888"));
         testList.add(new Contact("Jack", "Smith", "858-888-8888"));
         return testList;
+    }
+
+    private void init() {
+        Contacts.getInstance().setEventListener(new Contacts.ContactEventListener() {
+            @Override
+            public void onContactListLoaded() {
+                contacts = Contacts.getInstance().getContactList();
+                if (adapter != null) {
+                    adapter.notifyDataChange(contacts);
+                }
+            }
+
+            @Override
+            public void onNewContactAdded() {
+
+            }
+
+            @Override
+            public void onContactUpdated(Contact oldContact, Contact newContact) {
+
+            }
+        });
     }
 }
