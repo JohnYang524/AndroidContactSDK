@@ -84,8 +84,8 @@ public class ContactsActivity extends AppCompatActivity {
 
     private List<Contact> createTestList() {
         List<Contact> testList = new ArrayList<>();
-        testList.add(new Contact("John", "Doe", "858-888-8888"));
-        testList.add(new Contact("Jack", "Smith", "858-888-8888"));
+        testList.add(new Contact("901", "John", "Doe", "858-888-8888"));
+        testList.add(new Contact("902", "Jack", "Smith", "858-888-8888"));
         return testList;
     }
 
