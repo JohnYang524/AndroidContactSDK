@@ -44,6 +44,8 @@ dependencies {
 
     testImplementation "junit:junit:$junit_version"
 
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit_version"
     androidTestImplementation "androidx.test:runner:$android_test_runner_version"
 }
