@@ -5,12 +5,13 @@
 
 
 namespace contacts {
-namespace jni {
+    namespace jni {
 
-extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_00024Companion_nativeGetVersion(JNIEnv *env,
-                                                                                                jobject jclass);
-
-}
+        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env,
+                                                                                                          jobject jclass);
+        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetContactList(JNIEnv *env,
+                                                                                         jobject jclass);
+    }
 }
 
 #endif // CONTACTS_JNI_H_

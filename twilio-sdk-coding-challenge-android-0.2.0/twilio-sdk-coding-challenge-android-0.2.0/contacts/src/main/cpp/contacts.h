@@ -10,6 +10,7 @@ class Contacts {
  public:
 
     static std::string getVersion();
+    static std::string getContactsList();
 
  private:
 

@@ -55,7 +55,7 @@ public class ContactsActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), Contacts.getVersion(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), Contacts.getInstance().getContactList(), Toast.LENGTH_SHORT).show();
                 createNewContact();
             }
         });

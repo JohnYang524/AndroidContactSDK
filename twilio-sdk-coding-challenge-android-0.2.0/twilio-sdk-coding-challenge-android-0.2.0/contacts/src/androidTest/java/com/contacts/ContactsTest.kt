@@ -12,7 +12,7 @@ class ContactsTest {
     fun versionReturnsSemVerFormattedVersion() {
         val semVerRegex = Regex("^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:-([0-9A-Z" +
                 "a-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+[0-9A-Za-z-]+)?$")
-        val version = Contacts.version
+        val version = Contacts.getInstance().version
         assertNotNull(version)
         assertTrue(version.matches(semVerRegex))
     }

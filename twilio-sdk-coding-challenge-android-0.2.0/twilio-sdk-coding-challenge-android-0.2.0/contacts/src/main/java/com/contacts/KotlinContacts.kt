@@ -11,7 +11,7 @@ package com.contacts
  * The class includes a simple [.getVersion] method to demonstrate how to call from a
  * Java class to C++ code.
  */
-class Contacts {
+class KotlinContacts {
     companion object {
         init {
             System.loadLibrary(BuildConfig.CONTACTS_LIBRARY)
