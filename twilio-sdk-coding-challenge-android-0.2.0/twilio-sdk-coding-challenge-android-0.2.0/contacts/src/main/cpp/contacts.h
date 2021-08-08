@@ -11,11 +11,13 @@ class Contacts {
 
     static std::string getVersion();
     static std::string getContactsList();
+    static std::string getLastUpdatedTime(); // last updated time in DB server
 
  private:
 
     const static std::string kSdkVersion;
     const static std::string kContactsList;
+    const static std::string kLastUpdateTimestamp;
 };
 
 }

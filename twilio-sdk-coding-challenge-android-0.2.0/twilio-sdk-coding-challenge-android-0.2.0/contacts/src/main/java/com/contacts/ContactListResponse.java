@@ -11,14 +11,14 @@ import java.util.*;
 public class ContactListResponse {
     List<Contact> contactList;
     // public constructor is necessary for collections
-    public ContactListResponse() {
+    public ContactListResponse(List<Contact> contacts) {
         contactList = new ArrayList<Contact>();
+        contactList.addAll(contacts);
     }
 
-    // TODO: move this out of this class and created a Util class to do this job
     public static ContactListResponse parseJSON(String response) {
         Gson gson = new GsonBuilder().create();
-        ContactListResponse contactListResponse = gson.fromJson(response, ContactListResponse.class);
-        return contactListResponse;
+        Contact[] contacts = gson.fromJson(response, Contact[].class);
+        return new ContactListResponse(Arrays.asList(contacts));
     }
 }

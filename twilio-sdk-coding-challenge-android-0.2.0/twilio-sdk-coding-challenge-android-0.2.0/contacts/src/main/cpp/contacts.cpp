@@ -5,6 +5,11 @@ namespace contacts {
     const std::string Contacts::kSdkVersion = "0.1.0";
 
     /*
+     * This value should be retrieved from server, hardcoding the value here for testing
+     */
+    const std::string Contacts::kLastUpdateTimestamp = "1";
+
+    /*
      * You may store all of a users contacts in memory and use this list to seed the users's initial
      * contact list.
      */
@@ -26,4 +31,7 @@ namespace contacts {
         return kContactsList;
     }
 
+    std::string contacts::Contacts::getLastUpdatedTime() {
+        return kLastUpdateTimestamp;
+    }
 }

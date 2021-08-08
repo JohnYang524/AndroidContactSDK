@@ -29,5 +29,16 @@ namespace contacts {
             return jstr;
         }
 
+        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetLastUpdateTime(JNIEnv *env,
+                                                                                             jobject jclass) {
+            std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+            std::string lastUpdateTimestamp = contacts::Contacts::getLastUpdatedTime();
+            auto last_update_time_str = convert.from_bytes(lastUpdateTimestamp);
+            jstring jstr = env->NewString(reinterpret_cast<jchar const *>(last_update_time_str.c_str()),
+                                          last_update_time_str.size());
+
+            return jstr;
+        }
+
     }
 }
