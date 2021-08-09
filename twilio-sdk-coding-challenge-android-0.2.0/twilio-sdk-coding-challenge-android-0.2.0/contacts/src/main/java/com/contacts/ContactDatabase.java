@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 /*
-*  Room database for Contacts
+*  Room database for saving contacts
 * */
 @Database(entities = {Contact.class}, version = 1)
 public abstract class ContactDatabase extends RoomDatabase {

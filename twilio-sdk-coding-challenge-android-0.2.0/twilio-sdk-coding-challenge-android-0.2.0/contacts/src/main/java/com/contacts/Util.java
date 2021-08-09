@@ -8,6 +8,7 @@ import java.math.BigInteger;
 
 public class Util {
     public static String PREF_KEY_LAST_SYNC_TIME = "PREF_KEY_LAST_SYNC_TIME";
+
     public static String getLastSyncTime(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getString(PREF_KEY_LAST_SYNC_TIME, "0");

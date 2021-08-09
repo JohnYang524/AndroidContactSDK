@@ -19,6 +19,9 @@ public interface ContactDAO {
             "last_name LIKE :last LIMIT 1")
     Contact findByName(String first, String last);
 
+    @Query("SELECT * FROM contact WHERE id=:id")
+    Contact findById(String id);
+
     @Insert
     void insertAll(Contact... contacts);
 
