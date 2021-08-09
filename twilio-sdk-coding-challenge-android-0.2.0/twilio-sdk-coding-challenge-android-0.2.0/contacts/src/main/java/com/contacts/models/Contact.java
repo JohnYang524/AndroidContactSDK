@@ -1,4 +1,4 @@
-package com.contacts;
+package com.contacts.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -12,13 +12,13 @@ import androidx.room.PrimaryKey;
 public class Contact {
     @NonNull
     @PrimaryKey
-    String id;
+    public String id;
     @ColumnInfo(name = "first_name")
-    String firstName;
+    public String firstName;
     @ColumnInfo(name = "last_name")
-    String lastName;
+    public String lastName;
     @ColumnInfo(name = "phone_number")
-    String phoneNumber;
+    public String phoneNumber;
 
     public Contact(String id, String firstName, String lastName, String phoneNumber) {
         this.id = id;

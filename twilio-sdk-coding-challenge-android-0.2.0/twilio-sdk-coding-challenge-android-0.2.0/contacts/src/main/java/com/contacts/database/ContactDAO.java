@@ -1,6 +1,6 @@
 package com.contacts.database;
 
-import com.contacts.Contact;
+import com.contacts.models.Contact;
 
 import java.util.List;
 

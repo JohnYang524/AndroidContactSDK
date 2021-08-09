@@ -1,11 +1,13 @@
-package com.contacts;
+package com.contacts.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.math.BigInteger;
-
+/**
+ * Utility class.
+ */
 public class Util {
     public static String PREF_KEY_LAST_SYNC_TIME = "PREF_KEY_LAST_SYNC_TIME";
 

@@ -2,7 +2,6 @@ package com.contacts.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.contacts.Contact;
+import com.contacts.models.Contact;
 import com.contacts.Contacts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
