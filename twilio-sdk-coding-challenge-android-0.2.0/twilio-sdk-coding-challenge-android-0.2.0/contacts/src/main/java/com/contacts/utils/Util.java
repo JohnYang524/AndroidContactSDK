@@ -11,12 +11,23 @@ import java.math.BigInteger;
 public class Util {
     public static String PREF_KEY_LAST_SYNC_TIME = "PREF_KEY_LAST_SYNC_TIME";
 
+    /***
+     * Get room DB last sync time as millisecond
+     * Default value is "0". For testing purpose, server update timestamp is set to be "1".
+     *
+     * @param context
+     * */
     public static String getLastSyncTime(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getString(PREF_KEY_LAST_SYNC_TIME, "0");
     }
 
-    // Save room DB last sync time in millisecond
+    /***
+     * Save room DB last sync time as millisecond in SharedPref
+     *
+     * @param context
+     * @param newValue timestamp for last Room DB sync
+     * */
     public static void saveLastSyncTime(Context context, String newValue) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         if (pref != null) {

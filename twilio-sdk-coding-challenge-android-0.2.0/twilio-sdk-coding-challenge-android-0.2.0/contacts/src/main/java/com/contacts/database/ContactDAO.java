@@ -8,7 +8,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-
+/**
+ *  Room database Contact DAO
+ */
 @Dao
 public interface ContactDAO {
     @Query("SELECT * FROM contact")
