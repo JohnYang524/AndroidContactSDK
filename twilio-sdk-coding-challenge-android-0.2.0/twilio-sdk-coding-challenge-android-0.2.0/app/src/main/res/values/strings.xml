@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Twilio Sdk Coding Challenge</string>
+    <string name="fragment_tag_contact_list">Contact</string>
+    <string name="fragment_tag_create_new">Create New Contact</string>
 </resources>

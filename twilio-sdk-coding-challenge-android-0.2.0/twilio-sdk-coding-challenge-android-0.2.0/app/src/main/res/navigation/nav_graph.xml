@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ContactListFragment">
+
+    <fragment
+        android:id="@+id/ContactListFragment"
+        android:name="com.contacts.app.ContactListFragment"
+        android:label="@string/fragment_tag_contact_list"
+        tools:layout="@layout/fragment_contact_list">
+
+        <action
+            android:id="@+id/action_list_to_createnew"
+            app:destination="@id/CreateNewContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CreateNewContactFragment"
+        android:name="com.contacts.app.CreateNewContactFragment"
+        android:label="@string/fragment_tag_create_new"
+        tools:layout="@layout/fragment_create_new">
+
+        <action
+            android:id="@+id/action_createnew_to_list"
+            app:destination="@id/ContactListFragment" />
+    </fragment>
+</navigation>
