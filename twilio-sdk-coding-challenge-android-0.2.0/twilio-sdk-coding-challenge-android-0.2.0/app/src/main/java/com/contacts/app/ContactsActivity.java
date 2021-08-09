@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.contacts.ContactsManger;
 import com.contacts.models.Contact;
 import com.contacts.Contacts;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,7 +71,7 @@ public class ContactsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Contacts.getInstance().syncContactList(this);
+        Contacts.getInstance().syncContactData(this);
     }
 
     private void createNewContact() {
@@ -89,7 +90,7 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        Contacts.getInstance().setEventListener(new Contacts.ContactEventListener() {
+        Contacts.getInstance().setEventListener(new ContactsManger.ContactEventListener() {
             @Override
             public void onContactListLoaded() {
                 contacts = Contacts.getInstance().getContactList();

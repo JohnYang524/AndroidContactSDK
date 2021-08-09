@@ -1,19 +1,10 @@
 package com.contacts;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 
-import com.contacts.utils.ContactListResponse;
-import com.contacts.database.ContactDatabase;
 import com.contacts.models.Contact;
-import com.contacts.utils.Util;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * The Contacts SDK allows users to manage a users contacts. Your submission should include the
@@ -29,7 +20,7 @@ import java.util.concurrent.Executors;
 public class Contacts {
     private static final boolean mIsDebuggable = true; // TODO: use value in config file
     private static final String TAG = Contacts.class.getName();
-    // static variable single_instance of type Contacts
+
     private static Contacts contacts_instance = null;
     static {
         System.loadLibrary(BuildConfig.CONTACTS_LIBRARY);
@@ -39,36 +30,18 @@ public class Contacts {
     private native String nativeGetUpdatedContactListAfter(String timestamp);
     private native String nativeGetLastUpdateTime();
 
-    // Event listeners to handle callbacks
-    public interface ContactEventListener {
-        void onContactListLoaded();
-        void onNewContactAdded();
-        void onContactUpdated(Contact oldContact, Contact newContact);
-    }
-    private ContactEventListener mEventListener;
-    private List<Contact> mContactList;
-
-//    private static final String EVENTS_UPDATE_LIST = "EVENTS_UPDATE_LIST";
+    private ContactsManger manager;
 
     private Contacts() {
-        mContactList = new ArrayList<>();
+        manager = new ContactsManger();
     }
 
-    // static method to create instance of Contacts class
     public static Contacts getInstance()
     {
         if (contacts_instance == null)
             contacts_instance = new Contacts();
 
         return contacts_instance;
-    }
-
-    public void setEventListener(ContactEventListener listener) {
-        this.mEventListener = listener;
-    }
-
-    public List<Contact> getContactList() {
-        return mContactList;
     }
 
     public String getVersion() {
@@ -87,35 +60,47 @@ public class Contacts {
         return nativeGetLastUpdateTime();
     }
 
-     /**
-      * Update local contact list data.
-      * TODO: use a better logic to update local list. E.g. update list after server call before updating DB
-      * For now, update local list with Room DB data
-     */
-    public void updateLocalContactList(Context context) {
-
-        ContactDatabase appDb = ContactDatabase.getInstance(context);
-        List<Contact> dbList = appDb.contactDao().getAll();
-        mContactList.clear();
-        mContactList.addAll(dbList);
-
-        /*if (list.isEmpty()) {
-            mContactList.addAll(list);
-        }
-        else { // Make changes to the newly updated contact record
-            for (Contact updatedContact : list) {
-                if (mContactList.contains(updatedContact)) { // Update existing record
-                    mContactList.remove(updatedContact);
-                }
-                mContactList.add(updatedContact);
-            }
-        }*/
-        if (mIsDebuggable)
-            Log.v(TAG, "Updated local contact list. Current length: " + mContactList.size());
+    public void setEventListener(ContactsManger.ContactEventListener listener) {
+        manager.setEventListener(listener);
     }
 
+    public List<Contact> getContactList() {
+        return manager.getContactList();
+    }
+
+    public void syncContactData(Context context) {
+        manager.syncContactList(context);
+    }
+
+//     /**
+//      * Update local contact list data.
+//      * TODO: use a better logic to update local list. E.g. update list after server call before updating DB
+//      * For now, update local list with Room DB data
+//     */
+//    public void updateLocalContactList(Context context) {
+//
+//        ContactDatabase appDb = ContactDatabase.getInstance(context);
+//        List<Contact> dbList = appDb.contactDao().getAll();
+//        mContactList.clear();
+//        mContactList.addAll(dbList);
+//
+//        /*if (list.isEmpty()) {
+//            mContactList.addAll(list);
+//        }
+//        else { // Make changes to the newly updated contact record
+//            for (Contact updatedContact : list) {
+//                if (mContactList.contains(updatedContact)) { // Update existing record
+//                    mContactList.remove(updatedContact);
+//                }
+//                mContactList.add(updatedContact);
+//            }
+//        }*/
+//        if (mIsDebuggable)
+//            Log.v(TAG, "Updated local contact list. Current length: " + mContactList.size());
+//    }
+
     // Check server update time before retrieving contact list and sync DB
-    public void syncContactList(Context context) {
+   /* public void syncContactList(Context context) {
         Executor executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(new Runnable() {
@@ -185,5 +170,5 @@ public class Contacts {
             // insert new record
             appDb.contactDao().insertAll(new Contact[]{contact});
         }
-    }
+    }*/
 }
