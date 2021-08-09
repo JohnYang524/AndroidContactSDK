@@ -10,7 +10,9 @@ namespace contacts {
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env,
                                                                                                           jobject jclass);
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetContactList(JNIEnv *env,
-                                                                                         jobject jclass);
+                                                                                                         jobject jclass);
+        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetUpdatedContactListAfter(JNIEnv *env,
+                                                                                         jobject jclass, jstring timestamp);
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetLastUpdateTime(JNIEnv *env,
                                                                                              jobject jclass);
     }

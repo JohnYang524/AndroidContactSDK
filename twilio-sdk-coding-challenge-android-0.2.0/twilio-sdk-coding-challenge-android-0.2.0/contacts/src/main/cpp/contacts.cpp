@@ -31,6 +31,10 @@ namespace contacts {
         return kContactsList;
     }
 
+    std::string contacts::Contacts::getUpdatedContactsListAfter(std::string timestamp) {
+        return kContactsList;
+    }
+
     std::string contacts::Contacts::getLastUpdatedTime() {
         return kLastUpdateTimestamp;
     }

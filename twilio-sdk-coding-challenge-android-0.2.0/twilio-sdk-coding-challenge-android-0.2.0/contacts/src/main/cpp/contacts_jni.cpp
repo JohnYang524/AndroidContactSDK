@@ -29,6 +29,17 @@ namespace contacts {
             return jstr;
         }
 
+        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetUpdatedContactListAfter(JNIEnv *env,
+                                                                                             jobject jclass, jstring timestamp) {
+            std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+            std::string contactList = contacts::Contacts::getContactsList();
+            auto contact_list_str = convert.from_bytes(contactList);
+            jstring jstr = env->NewString(reinterpret_cast<jchar const *>(contact_list_str.c_str()),
+                                          contact_list_str.size());
+
+            return jstr;
+        }
+
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetLastUpdateTime(JNIEnv *env,
                                                                                              jobject jclass) {
             std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;

@@ -11,6 +11,7 @@ class Contacts {
 
     static std::string getVersion();
     static std::string getContactsList();
+    static std::string getUpdatedContactsListAfter(std::string timestamp); // Returns only contact records that got updated after timestamp
     static std::string getLastUpdatedTime(); // last updated time in DB server
 
  private:
