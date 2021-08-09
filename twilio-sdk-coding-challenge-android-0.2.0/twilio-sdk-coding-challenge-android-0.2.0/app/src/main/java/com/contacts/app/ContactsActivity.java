@@ -1,10 +1,15 @@
 package com.contacts.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -14,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.contacts.ContactsManger;
 import com.contacts.models.Contact;
 import com.contacts.Contacts;
+import com.contacts.utils.Util;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -29,6 +35,9 @@ import java.util.List;
  */
 
 public class ContactsActivity extends AppCompatActivity {
+    private static final boolean mIsDebuggable = true; // TODO: use value in config file
+    private static final String TAG = ContactsManger.class.getName();
+    public static final int CREATE_CONTACT_REQUEST_CODE = 1001;
 
     List<Contact> contacts = new ArrayList<>();
     ContactListAdapter adapter;
@@ -43,8 +52,6 @@ public class ContactsActivity extends AppCompatActivity {
 
         // Lookup the recyclerview in activity layout
         contactList = (RecyclerView) findViewById(R.id.contactList);
-        // Initialize contacts
-//        contacts = createTestList();
         // Create adapter passing in the sample user data
         adapter = new ContactListAdapter(contacts);
         // Set layout manager to position the items
@@ -62,7 +69,6 @@ public class ContactsActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), Contacts.getInstance().getContactListFromServer(), Toast.LENGTH_SHORT).show();
                 createNewContact();
             }
         });
@@ -74,19 +80,20 @@ public class ContactsActivity extends AppCompatActivity {
         Contacts.getInstance().syncContactData(this);
     }
 
-    private void createNewContact() {
-        Intent intent = new Intent(this, CreateContactActivity.class);
-//        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
-//        String message = editText.getText().toString();
-//        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CREATE_CONTACT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            String contactData = data.getStringExtra(Util.KEY_CONTACT_DATA);
+            if (mIsDebuggable)
+                Log.v(TAG, "New contact to be added: " + contactData);
+            Contacts.getInstance().addNewContact(contactData);
+        }
     }
 
-    private List<Contact> createTestList() {
-        List<Contact> testList = new ArrayList<>();
-        testList.add(new Contact("901", "John", "Doe", "858-888-8888"));
-        testList.add(new Contact("902", "Jack", "Smith", "858-888-8888"));
-        return testList;
+    private void createNewContact() {
+        Intent intent = new Intent(this, CreateContactActivity.class);
+        startActivityForResult(intent, CREATE_CONTACT_REQUEST_CODE);
     }
 
     private void init() {
@@ -100,8 +107,15 @@ public class ContactsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNewContactAdded() {
-
+            public void onNewContactAdded(int responseCode) {
+                if (responseCode == Util.HTTP_RESPONSE_SUCCESS) {
+                    if (mIsDebuggable)
+                        Log.v(TAG, "New contact successfully added in DB server. Updating local DB and UI");
+                    Contacts.getInstance().onServerDataUpdated(getApplicationContext());
+                } else {
+                    if (mIsDebuggable)
+                        Log.v(TAG, "New contact failed to be added in DB server. Error code: " + responseCode);
+                }
             }
 
             @Override
