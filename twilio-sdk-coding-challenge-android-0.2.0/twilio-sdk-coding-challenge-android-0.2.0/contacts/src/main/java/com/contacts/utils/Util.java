@@ -3,6 +3,10 @@ package com.contacts.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.contacts.models.Contact;
+import com.google.gson.Gson;
 
 import java.math.BigInteger;
 /**
@@ -10,6 +14,10 @@ import java.math.BigInteger;
  */
 public class Util {
     public static String PREF_KEY_LAST_SYNC_TIME = "PREF_KEY_LAST_SYNC_TIME";
+    public static String PREF_KEY_NEXT_DB_ID = "PREF_KEY_NEXT_DB_ID";
+    public static String KEY_CONTACT_DATA = "KEY_CONTACT_DATA";
+    public static final int HTTP_RESPONSE_SUCCESS = 200;
+    public static final int HTTP_RESPONSE_FAILURE = 400; // For testing purpose only
 
     /***
      * Get room DB last sync time as millisecond
@@ -49,5 +57,29 @@ public class Util {
     public static boolean localDBUpToDate(Context context, String lastUpdateInServer) {
         String lastDBSyncTime = getLastSyncTime(context);
         return new BigInteger(lastDBSyncTime).compareTo(new BigInteger(lastUpdateInServer)) > 0;
+    }
+
+    /***
+     * Convert Contact object to JSON string
+     *
+     * @param contact
+     * @return JSON string
+     * */
+    public static String contactToJSONString(Contact contact) {
+        return new Gson().toJson(contact);
+    }
+
+    /***
+     * For testing purpose only. Simulating auto-incrementing ID.
+     * */
+    public static String getNextID(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String current = pref.getString(PREF_KEY_NEXT_DB_ID, "110");
+        // increment by 1
+        String next = String.valueOf(Integer.parseInt(current) + 1);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(PREF_KEY_NEXT_DB_ID, next);
+        Log.v("ttt", next);
+        return next;
     }
 }
