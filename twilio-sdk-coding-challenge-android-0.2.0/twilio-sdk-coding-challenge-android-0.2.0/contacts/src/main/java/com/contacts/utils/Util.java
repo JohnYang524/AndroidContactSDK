@@ -79,7 +79,7 @@ public class Util {
         String next = String.valueOf(Integer.parseInt(current) + 1);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(PREF_KEY_NEXT_DB_ID, next);
-        Log.v("ttt", next);
+        editor.apply();
         return next;
     }
 }
