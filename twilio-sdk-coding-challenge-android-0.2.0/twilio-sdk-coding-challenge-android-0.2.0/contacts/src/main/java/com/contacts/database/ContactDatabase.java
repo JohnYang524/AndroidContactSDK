@@ -1,6 +1,8 @@
-package com.contacts;
+package com.contacts.database;
 
 import android.content.Context;
+
+import com.contacts.Contact;
 
 import androidx.room.Database;
 import androidx.room.Room;
