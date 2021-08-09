@@ -25,7 +25,7 @@ public class ContactsManger {
     // Event listeners to handle callbacks
     public interface ContactEventListener {
         void onContactListLoaded();
-        void onNewContactAdded();
+        void onNewContactAdded(int responseCode);
         void onContactUpdated(Contact oldContact, Contact newContact);
     }
     private ContactEventListener mEventListener;
@@ -37,6 +37,10 @@ public class ContactsManger {
 
     public void setEventListener(ContactEventListener listener) {
         mEventListener = listener;
+    }
+
+    public ContactEventListener getEventListener() {
+        return mEventListener;
     }
 
     public List<Contact> getContactList() {
@@ -97,7 +101,7 @@ public class ContactsManger {
      * based on which we decide whether we should update contactlist with local DB or server data.
      * TODO: update UI before syncing DB to improve performance
      */
-    private void syncContactDataFromServer(Context context) {
+    public void syncContactDataFromServer(Context context) {
         // Get timestamp for last Room DB update
         String lastDBUpdateTimestamp = Util.getLastSyncTime(context);
         // Get list of NEW/Updated Contacts by making call to C++ SDK
@@ -157,5 +161,54 @@ public class ContactsManger {
         }*/
         if (mIsDebuggable)
             Log.v(TAG, "Updated local contact list. Current length: " + mContactList.size());
+    }
+
+    /**
+     * Update local DB
+     * @param contact
+     */
+    public void onNewContactAdded(Contact contact, Context context) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                ContactDatabase appDb = ContactDatabase.getInstance(context);
+                appDb.contactDao().insertAll(new Contact[]{contact});
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // do UI changes after background work
+                        if (mEventListener != null) {
+                            mEventListener.onContactListLoaded();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Sync DB data with server when server update is detected
+     * @param context
+     */
+    public void onServerDataUpdated(Context context){
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                syncContactDataFromServer(context);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // do UI changes after background work
+                        if (mEventListener != null) {
+                            mEventListener.onContactListLoaded();
+                        }
+                    }
+                });
+            }
+        });
     }
 }

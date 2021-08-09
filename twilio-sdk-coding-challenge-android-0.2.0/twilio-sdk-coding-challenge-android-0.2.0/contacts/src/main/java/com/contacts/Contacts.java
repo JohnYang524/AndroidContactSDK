@@ -7,12 +7,14 @@ import com.contacts.models.Contact;
 import java.util.List;
 
 /**
- * The Contacts SDK allows users to manage a users contacts. Your submission should include the
+ * The Contacts SDK allows users to manage a user's contacts. The SDK includes the
  * following features:
  *
- * 1. List all of a users contacts.
- * 2. Add a new contact.
- * 3. Notify user of an updated contact.
+ * 1. List all of a user's contacts.
+ * 2. Get list all of users contacts that were updated/created after a certain timestamp
+ * 3. Add a new contact.
+ * 4. Notify user of an updated contact.
+ * 5. Get timestamp of last DB server update.
  *
  *  Singleton class for making Contacts API calls.
  */
@@ -28,6 +30,7 @@ public class Contacts {
     private native String nativeGetContactList();
     private native String nativeGetUpdatedContactListAfter(String timestamp);
     private native String nativeGetLastUpdateTime();
+    private native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
 
     private ContactsManger manager;
 
@@ -47,16 +50,30 @@ public class Contacts {
         return nativeGetVersion();
     }
 
+    // Get a list all of user's contacts
     public String getContactListFromServer() {
         return nativeGetContactList();
     }
 
+    // Get a list all of users contacts that were updated/created after timestamp
     public String getNewlyUpdatedContactListFromServer(String timestamp) {
         return nativeGetUpdatedContactListAfter(timestamp);
     }
 
     public String getLastUpdateTimeFromServer() {
         return nativeGetLastUpdateTime();
+    }
+
+    public void addNewContact(String newContactData) {
+        nativeAddNewContact(newContactData, manager.getEventListener()); // TODO: handle null eventListener here
+    }
+
+    public void onNewContactAdded(Contact contact, Context context) {
+        manager.onNewContactAdded(contact, context);
+    }
+
+    public void onServerDataUpdated(Context context) {
+        manager.onServerDataUpdated(context); // Sync DB with server
     }
 
     public void setEventListener(ContactsManger.ContactEventListener listener) {

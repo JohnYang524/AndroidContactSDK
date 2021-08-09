@@ -13,12 +13,14 @@ class Contacts {
     static std::string getContactsList();
     static std::string getUpdatedContactsListAfter(std::string timestamp); // Returns only contact records that got updated after timestamp
     static std::string getLastUpdatedTime(); // last updated time in DB server
+    static int addNewContact(std::string newContact); // add new contact, returns server response success/failure
 
  private:
 
     const static std::string kSdkVersion;
-    const static std::string kContactsList;
+    static std::string kContactsList;
     const static std::string kLastUpdateTimestamp;
+    static std::string kContactToBeAdded;
 };
 
 }

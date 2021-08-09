@@ -51,5 +51,21 @@ namespace contacts {
             return jstr;
         }
 
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeAddNewContact(JNIEnv *env, jobject jthis, jstring contactData,
+                                                                                         jobject listener) {
+            jclass callbackClass = env->GetObjectClass(listener);
+
+            if (callbackClass != nullptr) {
+                jmethodID jmethodId = env->GetMethodID(callbackClass, "onNewContactAdded", "(I)V");
+                if (jmethodId != nullptr) {
+                    // Convert jstring to char*
+                    const char *nativeContactData = env->GetStringUTFChars(contactData, 0);
+                    int addContactServerResponse =  contacts::Contacts::addNewContact(nativeContactData);
+                    env->CallVoidMethod(listener, jmethodId, addContactServerResponse);
+                }
+
+            }
+        }
+
     }
 }
