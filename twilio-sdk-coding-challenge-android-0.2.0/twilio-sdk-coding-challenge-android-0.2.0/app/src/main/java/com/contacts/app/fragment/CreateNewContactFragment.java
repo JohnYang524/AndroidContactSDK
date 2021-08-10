@@ -1,9 +1,12 @@
 package com.contacts.app.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,6 +35,10 @@ public class CreateNewContactFragment extends Fragment {
             Bundle savedInstanceState) {
 
         binding = FragmentCreateNewBinding.inflate(inflater, container, false);
+
+        // Fixing a keyboard issue
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         return binding.getRoot();
 
     }
@@ -51,9 +58,11 @@ public class CreateNewContactFragment extends Fragment {
 
                     Contacts.getInstance().addNewContact(newContact, getActivity());
 
+                    hideKeyboard(view);
                     // Navigate back to list
                     NavHostFragment.findNavController(CreateNewContactFragment.this)
                             .navigate(R.id.action_createnew_to_list);
+
                     Toast.makeText(getActivity(), getString(R.string.new_contact_created_message), Toast.LENGTH_SHORT).show();
                 }
 
@@ -84,5 +93,11 @@ public class CreateNewContactFragment extends Fragment {
         if (editText != null)
             return editText.getText().toString();
         return "";
+    }
+
+    private void hideKeyboard(View view) {
+        // Hide keyboard
+        InputMethodManager imm =(InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
