@@ -11,7 +11,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.contacts.ContactsManger;
 
-import com.contacts.app.ContactActivityObserver;
+import com.contacts.app.helpers.ContactActivityObserver;
 import com.contacts.app.R;
 import com.contacts.app.databinding.ActivityContactsBinding;
 

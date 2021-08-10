@@ -1,4 +1,4 @@
-package com.contacts.app;
+package com.contacts.app.helpers;
 
 import android.util.Log;
 

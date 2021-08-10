@@ -1,10 +1,11 @@
-package com.contacts.app;
+package com.contacts.app.helpers;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.contacts.app.R;
 import com.contacts.models.Contact;
 
 import androidx.annotation.NonNull;
