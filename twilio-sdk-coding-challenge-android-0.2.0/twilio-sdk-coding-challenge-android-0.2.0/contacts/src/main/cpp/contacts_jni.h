@@ -5,10 +5,21 @@
 
 
 namespace contacts {
+    /**
+     * Android SDK: call back to Android SDK to notify server data update
+     *
+     * */
+    void onContactUpdated(_jstring *updatedContact_);
+
     namespace jni {
         /* Get version string */
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env,
                                                                                                           jobject jclass);
+        /**
+         * Android SDK: nativeInit
+         * Initialization. Pass in JVM and callback listener.
+         * */
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeInit(JNIEnv *env, jobject listener);
 
         /**
          * Android SDK: nativeGetContactList
@@ -40,6 +51,7 @@ namespace contacts {
                                                                                          jstring contactData,
                                                                                          jobject listener);
     }
+
 }
 
 #endif // CONTACTS_JNI_H_

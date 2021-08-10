@@ -26,7 +26,7 @@ public class ContactsManger {
     public interface ContactEventListener {
         void onContactListLoaded();
         void onNewContactAdded(int responseCode);
-        void onContactUpdated(Contact oldContact, Contact newContact);
+        void onContactUpdated(String newContactData);
     }
     private ContactEventListener mEventListener;
     private List<Contact> mContactList;

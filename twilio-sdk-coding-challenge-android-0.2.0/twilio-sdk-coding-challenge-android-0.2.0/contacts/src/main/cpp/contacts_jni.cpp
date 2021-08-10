@@ -5,7 +5,19 @@
 #include <locale>
 
 namespace contacts {
+    static JavaVM *cachedJVM; // Cache a JavaVM instance here to make callback with. Do not cache JNIEnv as it changes with different active thread.
+    static jobject mListener;// Save listener to call back.
+
     namespace jni {
+
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeInit(JNIEnv *env, jobject listener)
+        {
+            int status = env->GetJavaVM(&cachedJVM);
+            if(status != 0) {
+                // Fail to get JVM, TODO: implement some sort of callback to java with failure message
+            }
+            mListener = listener;
+        }
 
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env,
                                                                                                               jobject jclass) {
@@ -66,6 +78,27 @@ namespace contacts {
 
             }
         }
+
+    }
+
+    // Call back to java listener when server data is updated
+    void onContactUpdated(_jstring *updatedContact_) {
+        if (cachedJVM != nullptr && mListener != nullptr) {
+            JNIEnv *env; // Get current JNIEvn from JVM
+            cachedJVM->AttachCurrentThread(&env, NULL);
+
+            jclass callbackClass = env->GetObjectClass(mListener);
+            if (callbackClass != nullptr) {
+                jmethodID jmethodId = env->GetMethodID(callbackClass, "onContactUpdated", "([Ljava/lang/String;)V");
+                if (jmethodId != nullptr) {
+                    // Convert jstring to char*
+                    const char *nativeContactData = env->GetStringUTFChars(updatedContact_, 0);
+                    env->CallVoidMethod(mListener, jmethodId, nativeContactData);
+                }
+            }
+
+        }
+
 
     }
 }

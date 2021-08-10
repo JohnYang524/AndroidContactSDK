@@ -14,6 +14,7 @@ class Contacts {
     static std::string getUpdatedContactsListAfter(std::string timestamp); // Returns only contact records that got updated after timestamp
     static std::string getLastUpdatedTime(); // last updated time in DB server
     static int addNewContact(std::string newContact); // add new contact, returns server response success/failure
+    static void onContactDataUpdated(std::string updatedContact);// Call back to upper SDK for update events
 
  private:
 

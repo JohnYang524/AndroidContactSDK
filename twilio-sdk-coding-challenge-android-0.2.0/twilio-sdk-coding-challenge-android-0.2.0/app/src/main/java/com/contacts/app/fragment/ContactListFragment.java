@@ -113,7 +113,7 @@ public class ContactListFragment extends Fragment{
             }
 
             @Override
-            public void onContactUpdated(Contact oldContact, Contact newContact) {
+            public void onContactUpdated(String newContactData) {
 
             }
         });

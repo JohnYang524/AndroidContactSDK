@@ -54,8 +54,8 @@ namespace contacts {
 
     int contacts::Contacts::addNewContact(std::string newContact) {
         // TODO: make web server calls to add new contact record
-//        kContactsList = kContactsList + kContactToBeAdded; // Adding new contact to end of list for testing purpose
-        kContactsList = kContactToBeAdded;
-        return 200; // always return 200 for testing purpose
+        // kContactsList = kContactsList + kContactToBeAdded;
+        kContactsList = kContactToBeAdded; // For testing purposes
+        return 200; // always return 200 for testing purposes
     }
 }
