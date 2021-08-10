@@ -100,6 +100,11 @@ public class ContactsManger {
      * Makes calls to C++ SDK to get last update timestamp,
      * based on which we decide whether we should update contactlist with local DB or server data.
      * TODO: update UI before syncing DB to improve performance
+     * Step 1: Retrieve last update time in server
+     * Step 2: Based on last sync timestamp, the list is updated either from Room DB,
+     *           or from Web service call responses from C++ SDK
+     * Step 3: If list is updated with server data, update local DB and update lastUpdateTimestamp
+     * Step 4: Update local contactList
      */
     public void syncContactDataFromServer(Context context) {
         // Get timestamp for last Room DB update
@@ -164,26 +169,36 @@ public class ContactsManger {
     }
 
     /**
-     * Update local DB
+     * Add a new contact record.
+     * 1. Send contact json string to C++ SDK
+     * 2. Send a listener to receive callback
+     * 3. Update local DB (for testing purpose since server doesn't exist
+     * @param contact Contact
+     * @param context
+     */
+    public void addNewContact(Contact contact, Context context) {
+        String jsonString = Util.contactToJSONString(contact);
+        if (mIsDebuggable)
+            Log.v(TAG, "New contact data created: " + jsonString);
+
+        // Update local DB
+        onNewContactAdded(contact, context);
+        // Update server
+        Contacts.getInstance().sendNewContactDataToServer(jsonString, mEventListener);
+    }
+
+    /**
+     * Update local DB when new contact is added. For testing purpose.
      * @param contact
      */
-    public void onNewContactAdded(Contact contact, Context context) {
+    private void onNewContactAdded(Contact contact, Context context) {
         Executor executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 ContactDatabase appDb = ContactDatabase.getInstance(context);
-                appDb.contactDao().insertAll(new Contact[]{contact});
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // do UI changes after background work
-                        if (mEventListener != null) {
-                            mEventListener.onContactListLoaded();
-                        }
-                    }
-                });
+                appDb.contactDao().insertAll(new Contact[]{contact});// insert new contact
             }
         });
     }

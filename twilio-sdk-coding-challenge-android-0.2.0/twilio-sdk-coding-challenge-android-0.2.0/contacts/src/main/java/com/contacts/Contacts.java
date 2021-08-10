@@ -64,12 +64,11 @@ public class Contacts {
         return nativeGetLastUpdateTime();
     }
 
-    public void addNewContact(String newContactData) {
-        nativeAddNewContact(newContactData, manager.getEventListener()); // TODO: handle null eventListener here
+    public void sendNewContactDataToServer(String contactData, ContactsManger.ContactEventListener listener) {
+        nativeAddNewContact(contactData, listener);
     }
-
-    public void onNewContactAdded(Contact contact, Context context) {
-        manager.onNewContactAdded(contact, context);
+    public void addNewContact(Contact contact, Context context) {
+        manager.addNewContact(contact, context);
     }
 
     public void onServerDataUpdated(Context context) {
