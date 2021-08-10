@@ -26,11 +26,11 @@ public class Contacts {
     static {
         System.loadLibrary(BuildConfig.CONTACTS_LIBRARY);
     }
-    private native String nativeGetVersion();
-    private native String nativeGetContactList();
-    private native String nativeGetUpdatedContactListAfter(String timestamp);
-    private native String nativeGetLastUpdateTime();
-    private native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
+    public native String nativeGetVersion();
+    public native String nativeGetContactList();// Get a list all of user's contacts
+    public native String nativeGetUpdatedContactListAfter(String timestamp);// Get a list all of users contacts that were updated/created after certain timestamp
+    public native String nativeGetLastUpdateTime();
+    public native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
 
     private ContactsManger manager;
 
@@ -46,27 +46,14 @@ public class Contacts {
         return contacts_instance;
     }
 
-    public String getVersion() {
-        return nativeGetVersion();
+    public List<Contact> getContactList() {
+        return manager.getContactList();
     }
 
-    // Get a list all of user's contacts
-    public String getContactListFromServer() {
-        return nativeGetContactList();
+    public void syncContactData(Context context) {
+        manager.syncContactList(context);
     }
 
-    // Get a list all of users contacts that were updated/created after timestamp
-    public String getNewlyUpdatedContactListFromServer(String timestamp) {
-        return nativeGetUpdatedContactListAfter(timestamp);
-    }
-
-    public String getLastUpdateTimeFromServer() {
-        return nativeGetLastUpdateTime();
-    }
-
-    public void sendNewContactDataToServer(String contactData, ContactsManger.ContactEventListener listener) {
-        nativeAddNewContact(contactData, listener);
-    }
     public void addNewContact(Contact contact, Context context) {
         manager.addNewContact(contact, context);
     }
@@ -77,13 +64,5 @@ public class Contacts {
 
     public void setEventListener(ContactsManger.ContactEventListener listener) {
         manager.setEventListener(listener);
-    }
-
-    public List<Contact> getContactList() {
-        return manager.getContactList();
-    }
-
-    public void syncContactData(Context context) {
-        manager.syncContactList(context);
     }
 }

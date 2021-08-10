@@ -84,7 +84,7 @@ public class ContactsManger {
      * @param context Context
      */
     public void syncContactListInBackground(Context context) {
-        String lastUpdateTimeInServer = Contacts.getInstance().getLastUpdateTimeFromServer();
+        String lastUpdateTimeInServer = Contacts.getInstance().nativeGetLastUpdateTime();
         if (Util.localDBUpToDate(context, lastUpdateTimeInServer)) {// DB up-to-date, get contact list from Room DB
             if (mIsDebuggable)
                 Log.v(TAG, "Local DB up to date, getting data from local DB");
@@ -110,7 +110,7 @@ public class ContactsManger {
         // Get timestamp for last Room DB update
         String lastDBUpdateTimestamp = Util.getLastSyncTime(context);
         // Get list of NEW/Updated Contacts by making call to C++ SDK
-        String jsonResponse = Contacts.getInstance().getNewlyUpdatedContactListFromServer(lastDBUpdateTimestamp);
+        String jsonResponse = Contacts.getInstance().nativeGetUpdatedContactListAfter(lastDBUpdateTimestamp);
         // Parse JSON string to a list of Contacts, and update local list and DB
         List<Contact> updatedContactList = ContactListResponse.parseJSON(jsonResponse).contactList;
 //        updateLocalContactList(updatedContactList);
@@ -184,7 +184,7 @@ public class ContactsManger {
         // Update local DB
         onNewContactAdded(contact, context);
         // Update server
-        Contacts.getInstance().sendNewContactDataToServer(jsonString, mEventListener);
+        Contacts.getInstance().nativeAddNewContact(jsonString, mEventListener);
     }
 
     /**
