@@ -1,5 +1,6 @@
 #include "contacts_jni.h"
 #include "contacts.h"
+#include <android/log.h>
 
 #include <codecvt>
 #include <locale>
@@ -10,7 +11,7 @@ namespace contacts {
 
     namespace jni {
 
-        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeInit(JNIEnv *env, jobject listener)
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeAttachListener(JNIEnv *env, jobject listener)
         {
             int status = env->GetJavaVM(&cachedJVM);
             if(status != 0) {
@@ -65,6 +66,7 @@ namespace contacts {
         }
 
         extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env) {
+            //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "nativeTestCallbackFunc");
             jstring testData = convertToJString(env, contacts::Contacts::getTestDataForCallbackTest());
             onContactUpdated(testData); // Verify Java listener gets notified
         }
@@ -82,14 +84,18 @@ namespace contacts {
 
     // Call back to java listener when server data is updated
     void onContactUpdated(_jstring *updatedContact_) {
+        //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "onContactUpdated");
         if (cachedJVM != nullptr && mListener != nullptr) {
             JNIEnv *env; // Get current JNIEvn from JVM
             cachedJVM->AttachCurrentThread(&env, NULL);
+            //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "JVM and listener NOT NULL");
 
             jclass callbackClass = env->GetObjectClass(mListener);
             if (callbackClass != nullptr) {
                 jmethodID jmethodId = env->GetMethodID(callbackClass, "onContactUpdated", "([Ljava/lang/String;)V");
+                //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Callback class FOUND");
                 if (jmethodId != nullptr) {
+                    //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Callback method FOUND");
                     // Convert jstring to char*
                     const char *nativeContactData = env->GetStringUTFChars(updatedContact_, 0);
                     env->CallVoidMethod(mListener, jmethodId, nativeContactData);

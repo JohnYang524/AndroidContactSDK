@@ -21,7 +21,7 @@ namespace contacts {
          * Android SDK: nativeInit
          * Initialization. Pass in JVM and callback listener.
          * */
-        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeInit(JNIEnv *env, jobject listener);
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeAttachListener(JNIEnv *env, jobject listener);
 
         /**
          * Android SDK: nativeGetContactList

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -114,7 +115,11 @@ public class ContactListFragment extends Fragment{
 
             @Override
             public void onContactUpdated(String newContactData) {
-
+                if (mIsDebuggable)
+                    Log.v(TAG, "Received Contact-Updated callback from server. " +
+                            "New contact data: " + newContactData);
+                Toast.makeText(getActivity(), getString(R.string.simulate_callback_response), Toast.LENGTH_SHORT).show();
+                // TODO: update DB and local list
             }
         });
     }

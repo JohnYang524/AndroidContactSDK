@@ -26,11 +26,14 @@ public class Contacts {
     static {
         System.loadLibrary(BuildConfig.CONTACTS_LIBRARY);
     }
+
+    private native void nativeAttachListener(ContactsManger.ContactEventListener listener);
     public native String nativeGetVersion();
     public native String nativeGetContactList();// Get a list all of user's contacts
     public native String nativeGetUpdatedContactListAfter(String timestamp);// Get a list all of users contacts that were updated/created after certain timestamp
     public native String nativeGetLastUpdateTime();
     public native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
+    public native void nativeTestCallbackFunc();// For testing purposes only: Test callback function in the event of server data updated
 
     private ContactsManger manager;
 
@@ -64,5 +67,7 @@ public class Contacts {
 
     public void setEventListener(ContactsManger.ContactEventListener listener) {
         manager.setEventListener(listener);
+        // nativeInit after listener set
+        nativeAttachListener(listener);
     }
 }

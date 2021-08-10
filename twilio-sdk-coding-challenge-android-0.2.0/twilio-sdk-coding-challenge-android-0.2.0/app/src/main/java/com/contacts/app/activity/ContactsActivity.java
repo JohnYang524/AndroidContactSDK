@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.contacts.Contacts;
 import com.contacts.ContactsManger;
 
 import com.contacts.app.helpers.ContactActivityObserver;
@@ -63,12 +64,12 @@ public class ContactsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         if (id == R.id.action_simulate) {
+            // Simulate contact-updated event and test callbacks
+            Contacts.getInstance().nativeTestCallbackFunc();
             return true;
         }
 
