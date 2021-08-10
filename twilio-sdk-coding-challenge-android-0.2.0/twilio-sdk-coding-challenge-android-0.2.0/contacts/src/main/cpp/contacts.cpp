@@ -36,6 +36,11 @@ namespace contacts {
                                               "{\"id\" : \"108\",\"firstName\" : \"Thomas\",\"lastName\" : \"Edison\",\"phoneNumber\" : \"+19086575678\"},"
                                               "{\"id\" : \"109\",\"firstName\" : \"Jack\",\"lastName\" : \"Smith\",\"phoneNumber\" : \"+18888888888\"}]";
 
+    /**
+     * Test data for testing callback function when update event is triggered
+     */
+    std::string Contacts::kCallbackTestData = "[{\"id\" : \"100\",\"firstName\" : \"UPDATED_FirstName\",\"lastName\" : \"UPDATED_LastName\",\"phoneNumber\" : \"+19999999999\"}]";
+
     std::string contacts::Contacts::getVersion() {
         return kSdkVersion;
     }
@@ -57,5 +62,9 @@ namespace contacts {
         // kContactsList = kContactsList + kContactToBeAdded;
         kContactsList = kContactToBeAdded; // For testing purposes
         return 200; // always return 200 for testing purposes
+    }
+
+    std::string contacts::Contacts::getTestDataForCallbackTest() {
+        return kCallbackTestData;
     }
 }

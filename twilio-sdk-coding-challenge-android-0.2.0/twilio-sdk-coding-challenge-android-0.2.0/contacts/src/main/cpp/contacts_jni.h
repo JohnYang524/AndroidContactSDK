@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <string>
 
 #ifndef CONTACTS_JNI_H_
 #define CONTACTS_JNI_H_
@@ -10,6 +11,7 @@ namespace contacts {
      *
      * */
     void onContactUpdated(_jstring *updatedContact_);
+    jstring convertToJString(JNIEnv *env, std::string string);
 
     namespace jni {
         /* Get version string */
@@ -50,6 +52,11 @@ namespace contacts {
                                                                                          jobject jclass,
                                                                                          jstring contactData,
                                                                                          jobject listener);
+        /**
+         * Android SDK: nativeTestCallbackFunc
+         * @output jstring: timestamp of last DB server update
+         * */
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env);
     }
 
 }

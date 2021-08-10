@@ -15,6 +15,7 @@ class Contacts {
     static std::string getLastUpdatedTime(); // last updated time in DB server
     static int addNewContact(std::string newContact); // add new contact, returns server response success/failure
     static void onContactDataUpdated(std::string updatedContact);// Call back to upper SDK for update events
+    static std::string getTestDataForCallbackTest();
 
  private:
 
@@ -22,6 +23,7 @@ class Contacts {
     static std::string kContactsList;
     const static std::string kLastUpdateTimestamp;
     static std::string kContactToBeAdded;
+    static std::string kCallbackTestData;
 };
 
 }

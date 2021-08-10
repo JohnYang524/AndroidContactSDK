@@ -14,53 +14,38 @@ namespace contacts {
         {
             int status = env->GetJavaVM(&cachedJVM);
             if(status != 0) {
-                // Fail to get JVM, TODO: implement some sort of callback to java with failure message
+                // Fail to get JVM
+                // TODO: notify Java for init failure
             }
             mListener = listener;
         }
 
-        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env,
-                                                                                                              jobject jclass) {
-            std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-            std::string sdk_version = contacts::Contacts::getVersion();
-            auto sdk_version_str = convert.from_bytes(sdk_version);
-            jstring jstr = env->NewString(reinterpret_cast<jchar const *>(sdk_version_str.c_str()),
-                                          sdk_version_str.size());
+        extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env, jobject jclass) {
 
-            return jstr;
+            std::string sdk_version = contacts::Contacts::getVersion();
+            return convertToJString(env, sdk_version);
         }
 
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetContactList(JNIEnv *env,
                                                                                                         jobject jclass) {
-            std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-            std::string contactList = contacts::Contacts::getContactsList();
-            auto contact_list_str = convert.from_bytes(contactList);
-            jstring jstr = env->NewString(reinterpret_cast<jchar const *>(contact_list_str.c_str()),
-                                          contact_list_str.size());
 
-            return jstr;
+            std::string contactList = contacts::Contacts::getContactsList();
+            return convertToJString(env, contactList);
         }
 
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetUpdatedContactListAfter(JNIEnv *env,
                                                                                              jobject jclass, jstring timestamp) {
-            std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-            std::string contactList = contacts::Contacts::getContactsList();
-            auto contact_list_str = convert.from_bytes(contactList);
-            jstring jstr = env->NewString(reinterpret_cast<jchar const *>(contact_list_str.c_str()),
-                                          contact_list_str.size());
-
-            return jstr;
+            // Convert jstring to char*
+            const char *nativeTimestamp = env->GetStringUTFChars(timestamp, 0);
+            std::string contactList = contacts::Contacts::getUpdatedContactsListAfter(nativeTimestamp);
+            return convertToJString(env, contactList);
         }
 
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetLastUpdateTime(JNIEnv *env,
                                                                                              jobject jclass) {
-            std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-            std::string lastUpdateTimestamp = contacts::Contacts::getLastUpdatedTime();
-            auto last_update_time_str = convert.from_bytes(lastUpdateTimestamp);
-            jstring jstr = env->NewString(reinterpret_cast<jchar const *>(last_update_time_str.c_str()),
-                                          last_update_time_str.size());
 
-            return jstr;
+            std::string contactList = contacts::Contacts::getLastUpdatedTime();
+            return convertToJString(env, contactList);
         }
 
         extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeAddNewContact(JNIEnv *env, jobject jthis, jstring contactData,
@@ -79,6 +64,20 @@ namespace contacts {
             }
         }
 
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env) {
+            jstring testData = convertToJString(env, contacts::Contacts::getTestDataForCallbackTest());
+            onContactUpdated(testData); // Verify Java listener gets notified
+        }
+
+    }
+
+    // Util method to convert std::string to jstring
+    jstring convertToJString(JNIEnv *env, std::string string) {
+        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+        auto str = convert.from_bytes(string);
+        jstring jstr = env->NewString(reinterpret_cast<jchar const *>(str.c_str()),
+                                      str.size());
+        return jstr;
     }
 
     // Call back to java listener when server data is updated
