@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.contacts.app.activity.ContactsActivity">
+    <item
+        android:id="@+id/action_simulate"
+        android:orderInCategory="100"
+        android:title="@string/simulate_callback"
+        app:showAsAction="never" />
+</menu>
