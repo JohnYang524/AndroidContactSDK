@@ -126,6 +126,9 @@ namespace contacts {
             } else if (getEnvStat == JNI_EVERSION) {
             }
 
+            if (env == nullptr)
+                return;
+
             // Notify all listeners, even though in our test case there is only 1 listener.
             if (!eventListeners.empty()) {
                 for (EventListener *listener : eventListeners) {

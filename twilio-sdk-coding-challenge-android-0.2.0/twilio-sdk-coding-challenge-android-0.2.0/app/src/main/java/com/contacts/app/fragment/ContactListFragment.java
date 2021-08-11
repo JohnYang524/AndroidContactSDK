@@ -117,8 +117,8 @@ public class ContactListFragment extends Fragment{
                 if (mIsDebuggable)
                     Log.v(TAG, "Received Contact-Updated callback from server. " +
                             "New contact data: " + newContactData);
-                Toast.makeText(getActivity(), getString(R.string.simulate_callback_response), Toast.LENGTH_SHORT).show();
-                // TODO: update DB and local list
+                Toast.makeText(getActivity(), getString(R.string.simulate_callback_response), Toast.LENGTH_LONG).show();
+                Contacts.getInstance().onContactUpdated(newContactData, getActivity());
             }
         });
     }

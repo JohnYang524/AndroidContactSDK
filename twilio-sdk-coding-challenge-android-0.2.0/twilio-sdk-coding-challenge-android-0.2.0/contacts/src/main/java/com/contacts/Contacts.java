@@ -28,13 +28,14 @@ public class Contacts {
         System.loadLibrary(BuildConfig.CONTACTS_LIBRARY);
     }
 
-    private native void nativeAttachListener(ContactsManger.ContactEventListener listener);
     public native String nativeGetVersion();
     public native String nativeGetContactList();// Get a list all of user's contacts
     public native String nativeGetUpdatedContactListAfter(String timestamp);// Get a list all of users contacts that were updated/created after certain timestamp
     public native String nativeGetLastUpdateTime();
     public native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
     public native void nativeSimulateContactUpdateEvent();// Test event callback function when server data updated
+
+    private native void nativeAttachListener(ContactsManger.ContactEventListener listener);
 
     private ContactsManger manager;
 
@@ -66,9 +67,16 @@ public class Contacts {
         manager.onServerDataUpdated(context); // Sync DB with server
     }
 
+    public void onContactUpdated(String newContactData, Context context) {
+        manager.onContactDataUpdate(newContactData, context);
+    }
+
     public void setEventListener(ContactsManger.ContactEventListener listener) {
         manager.setEventListener(listener);
-        // nativeInit after listener set
-        nativeAttachListener(listener);
+        nativeAttachListener(listener);// nativeInit after listener set
+    }
+
+    public void restoreContactData(Context context) {
+        manager.restoreData(context); // For testing purpose only
     }
 }

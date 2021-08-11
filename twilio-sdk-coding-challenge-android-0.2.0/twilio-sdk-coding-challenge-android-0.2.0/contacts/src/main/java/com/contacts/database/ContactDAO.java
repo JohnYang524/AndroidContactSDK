@@ -31,4 +31,7 @@ public interface ContactDAO {
 
     @Delete
     void delete(Contact contact);
+
+    @Query("DELETE FROM contact")
+    void nukeContactTable();
 }

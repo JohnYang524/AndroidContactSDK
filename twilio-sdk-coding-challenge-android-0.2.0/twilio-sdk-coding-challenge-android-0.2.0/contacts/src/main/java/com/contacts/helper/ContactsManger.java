@@ -8,10 +8,11 @@ import android.util.Log;
 import com.contacts.Contacts;
 import com.contacts.database.ContactDatabase;
 import com.contacts.models.Contact;
-import com.contacts.utils.ContactListResponse;
+import com.contacts.models.ContactListResponse;
 import com.contacts.utils.Util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -29,8 +30,10 @@ public class ContactsManger {
         void onNewContactAdded(int responseCode);
         void onContactUpdated(String newContactData);
     }
+
     private ContactEventListener mEventListener;
     private List<Contact> mContactList;
+    private Executor executor;
 
     public ContactsManger() {
         mContactList = new ArrayList<>();
@@ -55,21 +58,12 @@ public class ContactsManger {
      * @param context Context
      */
     public void syncContactList(Context context) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 syncContactListInBackground(context);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // do UI changes after background work
-                        if (mEventListener != null) {
-                            mEventListener.onContactListLoaded();
-                        }
-                    }
-                });
+                notifyUI();
             }
         });
     }
@@ -132,13 +126,7 @@ public class ContactsManger {
     private void syncLocalDBWithServer(Context context, List<Contact> contactList) {
         ContactDatabase appDb = ContactDatabase.getInstance(context);
         for (Contact contact : contactList) {
-            Contact dbRecord = appDb.contactDao().findById(contact.id);
-            if (dbRecord != null) {
-                // Delete existing record
-                appDb.contactDao().delete(dbRecord);
-            }
-            // insert new record
-            appDb.contactDao().insertAll(new Contact[]{contact});
+            updateContactDatainDB(appDb, contact);
         }
     }
 
@@ -193,8 +181,7 @@ public class ContactsManger {
      * @param contact
      */
     private void onNewContactAdded(Contact contact, Context context) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -206,24 +193,90 @@ public class ContactsManger {
 
     /**
      * Sync DB data with server when server update is detected
+     *
      * @param context
      */
     public void onServerDataUpdated(Context context){
-        Executor executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 syncContactDataFromServer(context);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // do UI changes after background work
-                        if (mEventListener != null) {
-                            mEventListener.onContactListLoaded();
-                        }
-                    }
-                });
+                notifyUI();
+            }
+        });
+    }
+
+    /**
+     * Called when contact data is updated in server.
+     * Update local DB and local list.
+     *
+     * @param context
+     */
+    public void onContactDataUpdate(String newContactData, Context context){
+        executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Contact[] contacts = Util.jsonStringToContact(newContactData);
+                ContactDatabase appDb = ContactDatabase.getInstance(context);
+                if (contacts != null && contacts.length > 0)
+                    updateContactDatainDB(appDb, contacts[0]);
+                updateLocalContactList(context);
+                notifyUI();
+            }
+        });
+    }
+
+    /**
+     * Do not call in UI thread.
+     * Update contact data in Room DB.
+     *
+     * @param appDb Database
+     * @param contact New data
+     */
+    private void updateContactDatainDB(ContactDatabase appDb, Contact contact) {
+        Contact dbRecord = appDb.contactDao().findById(contact.id);
+        if (dbRecord != null) {
+            // Delete existing record
+            appDb.contactDao().delete(dbRecord);
+        }
+        // insert new record with updated data
+        appDb.contactDao().insertAll(new Contact[]{contact});
+    }
+
+    /**
+     * Restore dataset to use the original data list
+     * For testing only
+     *
+     * @param context
+     */
+    public void restoreData(Context context) {
+        executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Clear DB
+                ContactDatabase appDb = ContactDatabase.getInstance(context);
+                appDb.contactDao().nukeContactTable();
+                // Reload server origin data
+                syncContactDataFromServer(context);
+                notifyUI();
+            }
+        });
+    }
+
+    /**
+     * Calling from non-UI thread to refresh UI
+     */
+    private void notifyUI() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                // do UI changes after background work
+                if (mEventListener != null) {
+                    mEventListener.onContactListLoaded();
+                }
             }
         });
     }

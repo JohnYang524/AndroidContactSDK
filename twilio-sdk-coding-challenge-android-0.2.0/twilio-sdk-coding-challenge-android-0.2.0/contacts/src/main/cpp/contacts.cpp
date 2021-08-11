@@ -38,7 +38,7 @@ namespace contacts {
     /**
      * Test data for testing callback function when update event is triggered
      */
-    std::string Contacts::kCallbackTestData = "[{\"id\" : \"100\",\"firstName\" : \"UPDATED_FirstName\",\"lastName\" : \"UPDATED_LastName\",\"phoneNumber\" : \"+19999999999\"}]";
+    std::string Contacts::kCallbackTestData = "[{\"id\" : \"99\",\"firstName\" : \"UPDATED_FirstName\",\"lastName\" : \"UPDATED_LastName\",\"phoneNumber\" : \"+19999999999\"}]";
 
     std::vector<EventListener *> kEventListeners; // Save all listeners to call back to.
 

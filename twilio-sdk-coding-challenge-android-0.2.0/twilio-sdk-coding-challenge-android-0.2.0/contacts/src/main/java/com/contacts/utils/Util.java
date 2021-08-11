@@ -3,10 +3,10 @@ package com.contacts.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.contacts.models.Contact;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.math.BigInteger;
 /**
@@ -67,6 +67,17 @@ public class Util {
      * */
     public static String contactToJSONString(Contact contact) {
         return new Gson().toJson(contact);
+    }
+
+    /***
+     * Convert JSON string to Contact[] object
+     *
+     * @param jsonString
+     * @return Contact[] object
+     * */
+    public static Contact[] jsonStringToContact(String jsonString) {
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(jsonString, Contact[].class);
     }
 
     /***
