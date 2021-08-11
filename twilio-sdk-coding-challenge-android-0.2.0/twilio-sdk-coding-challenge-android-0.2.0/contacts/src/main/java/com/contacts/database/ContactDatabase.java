@@ -9,7 +9,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 /**
-*  Room database for saving contacts data
+*  Room database for saving contacts data.
+ *  Singleton class
 */
 @Database(entities = {Contact.class}, version = 1)
 public abstract class ContactDatabase extends RoomDatabase {

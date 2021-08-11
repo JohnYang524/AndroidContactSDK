@@ -37,13 +37,17 @@ android {
             path file("CMakeLists.txt")
         }
     }
+
 }
 
 dependencies {
     def room_version = "2.3.0"
-
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    def mockito_version = "3.7.7"
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockito_version"
 
     implementation 'com.google.code.gson:gson:2.8.6'
 

@@ -126,7 +126,7 @@ public class ContactsManger {
     private void syncLocalDBWithServer(Context context, List<Contact> contactList) {
         ContactDatabase appDb = ContactDatabase.getInstance(context);
         for (Contact contact : contactList) {
-            updateContactDatainDB(appDb, contact);
+            updateContactDataInDB(appDb, contact);
         }
     }
 
@@ -222,7 +222,7 @@ public class ContactsManger {
                 Contact[] contacts = Util.jsonStringToContact(newContactData);
                 ContactDatabase appDb = ContactDatabase.getInstance(context);
                 if (contacts != null && contacts.length > 0)
-                    updateContactDatainDB(appDb, contacts[0]);
+                    updateContactDataInDB(appDb, contacts[0]);
                 updateLocalContactList(context);
                 notifyUI();
             }
@@ -236,7 +236,7 @@ public class ContactsManger {
      * @param appDb Database
      * @param contact New data
      */
-    private void updateContactDatainDB(ContactDatabase appDb, Contact contact) {
+    private void updateContactDataInDB(ContactDatabase appDb, Contact contact) {
         Contact dbRecord = appDb.contactDao().findById(contact.id);
         if (dbRecord != null) {
             // Delete existing record
