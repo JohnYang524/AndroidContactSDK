@@ -10,8 +10,7 @@ namespace contacts {
     const std::string Contacts::kLastUpdateTimestamp = "1";
 
     /*
-     * You may store all of a users contacts in memory and use this list to seed the users's initial
-     * contact list.
+     * Original test data
      */
     std::string Contacts::kContactsList = "[{\"id\" : \"100\",\"firstName\" : \"Alexander\",\"lastName\" : \"Bell\",\"phoneNumber\" : \"+16170000001\"},"
                                                 "{\"id\" : \"101\",\"firstName\" : \"Thomas\",\"lastName\" : \"Watson\",\"phoneNumber\" : \"+16170000002\"},"
@@ -23,7 +22,7 @@ namespace contacts {
                                                 "{\"id\" : \"107\",\"firstName\" : \"John\",\"lastName\" : \"Baird\",\"phoneNumber\" : \"+4408458591006\"},"
                                                 "{\"id\" : \"108\",\"firstName\" : \"Thomas\",\"lastName\" : \"Edison\",\"phoneNumber\" : \"+19086575678\"}]";
     /**
-     * New contact record to be added for testing contact add
+     * New contact record to be used for testing adding contacts
      */
     std::string Contacts::kContactToBeAdded = "[{\"id\" : \"100\",\"firstName\" : \"Alexander\",\"lastName\" : \"Bell\",\"phoneNumber\" : \"+16170000001\"},"
                                               "{\"id\" : \"101\",\"firstName\" : \"Thomas\",\"lastName\" : \"Watson\",\"phoneNumber\" : \"+16170000002\"},"
@@ -52,6 +51,7 @@ namespace contacts {
     }
 
     std::string contacts::Contacts::getUpdatedContactsListAfter(std::string timestamp) {
+        // Make server calls to return list of data updated after timestamp
         return kContactsList;
     }
 
