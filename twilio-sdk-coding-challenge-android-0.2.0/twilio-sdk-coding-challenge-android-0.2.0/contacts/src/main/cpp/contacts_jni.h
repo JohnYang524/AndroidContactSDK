@@ -6,10 +6,8 @@
 
 
 namespace contacts {
-    /**
-     * Android SDK: call back to Android SDK to notify server data update
-     * */
-    void onContactUpdated(_jstring *updatedContact_);
+    
+    void onContactUpdated(_jstring *updatedContact_);// Call back to Android SDK to notify server data update
     jstring convertToJString(JNIEnv *env, std::string string);
 
     namespace jni {
