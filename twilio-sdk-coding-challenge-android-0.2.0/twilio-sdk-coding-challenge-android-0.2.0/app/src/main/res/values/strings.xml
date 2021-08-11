@@ -4,6 +4,8 @@
     <string name="fragment_tag_create_new">Create New Contact</string>
     <string name="invalid_entry_message">Please enter all required fields.</string>
     <string name="new_contact_created_message">New contact created. Updating server...</string>
-    <string name="simulate_callback">Simulate a server update</string>>
+    <string name="menu_item_simulate_callback">Simulate a server update</string>>
+    <string name="menu_item_restore_data">Restore contact data</string>>
     <string name="simulate_callback_response">Received contact-updated event callback, updating db data...</string>>
+
 </resources>

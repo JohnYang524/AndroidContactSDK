@@ -5,6 +5,11 @@
     <item
         android:id="@+id/action_simulate"
         android:orderInCategory="100"
-        android:title="@string/simulate_callback"
+        android:title="@string/menu_item_simulate_callback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_restore"
+        android:orderInCategory="100"
+        android:title="@string/menu_item_restore_data"
         app:showAsAction="never" />
 </menu>

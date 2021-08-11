@@ -66,11 +66,17 @@ public class ContactsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        if (id == R.id.action_simulate) {
-            // Simulate contact-updated event and test callbacks
-            Contacts.getInstance().nativeSimulateContactUpdateEvent();
-            return true;
+        switch (id) {
+            case R.id.action_simulate:
+                // Simulate contact-updated event and test callbacks
+                Contacts.getInstance().nativeSimulateContactUpdateEvent();
+                return true;
+            case R.id.action_restore:
+                // Restore contact data to original dataset
+                Contacts.getInstance().restoreContactData(this);
+                return true;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
