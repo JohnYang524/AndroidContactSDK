@@ -2,6 +2,7 @@ package com.contacts;
 
 import android.content.Context;
 
+import com.contacts.helper.ContactsManger;
 import com.contacts.models.Contact;
 
 import java.util.List;

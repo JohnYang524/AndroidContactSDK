@@ -12,7 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.contacts.Contacts;
-import com.contacts.ContactsManger;
+import com.contacts.helper.ContactsManger;
 
 import com.contacts.app.helpers.ContactActivityObserver;
 import com.contacts.app.R;

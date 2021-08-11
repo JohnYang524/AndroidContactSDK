@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.contacts.Contacts;
-import com.contacts.ContactsManger;
+import com.contacts.helper.ContactsManger;
 import com.contacts.app.helpers.ContactListAdapter;
 import com.contacts.app.R;
 import com.contacts.app.databinding.FragmentContactListBinding;
-import com.contacts.models.Contact;
 import com.contacts.utils.Util;
 
 /***

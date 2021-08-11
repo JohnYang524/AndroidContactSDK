@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.contacts.Contacts;
-import com.contacts.ContactsManger;
+import com.contacts.helper.ContactsManger;
 import com.contacts.app.R;
 import com.contacts.app.databinding.FragmentCreateNewBinding;
 import com.contacts.models.Contact;

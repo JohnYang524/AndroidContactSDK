@@ -1,10 +1,11 @@
-package com.contacts;
+package com.contacts.helper;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.contacts.Contacts;
 import com.contacts.database.ContactDatabase;
 import com.contacts.models.Contact;
 import com.contacts.utils.ContactListResponse;
