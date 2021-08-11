@@ -30,6 +30,8 @@ namespace contacts {
             EventListener *eventListener = new EventListener(mListener, mMethodID);
             eventListeners.push_back(eventListener);
 
+            // Add to eventListener vector in contacts.cpp
+            contacts::Contacts::addEventListener(eventListener);
         }
 
         extern "C" JNIEXPORT jstring JNICALL Java_com_contacts_Contacts_nativeGetVersion(JNIEnv *env, jobject jclass) {

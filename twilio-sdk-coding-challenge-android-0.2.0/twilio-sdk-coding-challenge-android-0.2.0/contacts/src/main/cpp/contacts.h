@@ -18,6 +18,7 @@ class Contacts {
     static int addNewContact(std::string newContact); // add new contact, returns server response success/failure
     static void onContactDataUpdated(std::string updatedContact);// Call back to upper SDK for update events
     static std::string getTestDataForCallbackTest();
+    static void addEventListener(EventListener *listener);
 
  private:
 
@@ -26,7 +27,7 @@ class Contacts {
     const static std::string kLastUpdateTimestamp;
     static std::string kContactToBeAdded;
     static std::string kCallbackTestData;
-    std::vector<EventListener *> eventListeners; // Save all listeners to call back to.
+
 };
 
 }
