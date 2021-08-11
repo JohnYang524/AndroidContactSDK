@@ -57,7 +57,7 @@ namespace contacts {
          * Android SDK: nativeTestCallbackFunc
          * @output jstring: timestamp of last DB server update
          * */
-        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env, jobject thiz);
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeSimulateContactUpdateEvent(JNIEnv *env, jobject thiz);
     }
 
 }

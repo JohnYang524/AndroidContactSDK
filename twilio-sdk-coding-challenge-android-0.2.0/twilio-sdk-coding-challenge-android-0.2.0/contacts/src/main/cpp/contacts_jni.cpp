@@ -76,7 +76,7 @@ namespace contacts {
             }
         }
 
-        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env,
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeSimulateContactUpdateEvent(JNIEnv *env,
                                                                                             jobject thiz) {
             //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "nativeTestCallbackFunc");
             jstring testData = convertToJString(env, contacts::Contacts::getTestDataForCallbackTest());

@@ -33,7 +33,7 @@ public class Contacts {
     public native String nativeGetUpdatedContactListAfter(String timestamp);// Get a list all of users contacts that were updated/created after certain timestamp
     public native String nativeGetLastUpdateTime();
     public native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
-    public native void nativeTestCallbackFunc();// For testing purposes only: Test callback function in the event of server data updated
+    public native void nativeSimulateContactUpdateEvent();// Test event callback function when server data updated
 
     private ContactsManger manager;
 

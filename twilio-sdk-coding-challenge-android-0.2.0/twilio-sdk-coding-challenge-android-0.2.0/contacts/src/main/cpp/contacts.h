@@ -3,6 +3,8 @@
 
 #include <string>
 #include "contact.h"
+#include "EventListener.h"
+#include <vector>
 
 namespace contacts {
 
@@ -24,6 +26,7 @@ class Contacts {
     const static std::string kLastUpdateTimestamp;
     static std::string kContactToBeAdded;
     static std::string kCallbackTestData;
+    std::vector<EventListener *> eventListeners; // Save all listeners to call back to.
 };
 
 }

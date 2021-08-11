@@ -41,6 +41,8 @@ namespace contacts {
      */
     std::string Contacts::kCallbackTestData = "[{\"id\" : \"100\",\"firstName\" : \"UPDATED_FirstName\",\"lastName\" : \"UPDATED_LastName\",\"phoneNumber\" : \"+19999999999\"}]";
 
+    std::vector<EventListener *> eventListeners;
+
     std::string contacts::Contacts::getVersion() {
         return kSdkVersion;
     }
@@ -66,5 +68,19 @@ namespace contacts {
 
     std::string contacts::Contacts::getTestDataForCallbackTest() {
         return kCallbackTestData;
+    }
+
+    /**
+     * In the event of Contact data update, notify all EventListeners
+     * Test methods written in contacts_jni.cpp
+     */
+    void onContactDataUpdated(std::string updatedContact){
+        if (!eventListeners.empty()) {
+            for (EventListener *listener : eventListeners) {
+                // TODO: update all Event Listeners from here
+                // env->CallVoidMethod(listener->mListener,
+                //                     listener->mMethodID, updatedContact);
+            }
+        }
     }
 }

@@ -69,7 +69,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         if (id == R.id.action_simulate) {
             // Simulate contact-updated event and test callbacks
-            Contacts.getInstance().nativeTestCallbackFunc();
+            Contacts.getInstance().nativeSimulateContactUpdateEvent();
             return true;
         }
 
