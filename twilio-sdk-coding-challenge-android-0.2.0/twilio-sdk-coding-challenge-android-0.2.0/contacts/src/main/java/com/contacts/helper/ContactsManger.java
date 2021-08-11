@@ -141,6 +141,7 @@ public class ContactsManger {
         List<Contact> dbList = appDb.contactDao().getAll();
         mContactList.clear();
         mContactList.addAll(dbList);
+        Collections.sort(mContactList, (a, b) -> (Integer.parseInt(a.id) - Integer.parseInt(b.id)));
 
         /*if (list.isEmpty()) {
             mContactList.addAll(list);
