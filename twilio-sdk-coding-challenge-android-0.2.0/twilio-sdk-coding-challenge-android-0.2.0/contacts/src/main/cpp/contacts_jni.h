@@ -8,7 +8,6 @@
 namespace contacts {
     /**
      * Android SDK: call back to Android SDK to notify server data update
-     *
      * */
     void onContactUpdated(_jstring *updatedContact_);
     jstring convertToJString(JNIEnv *env, std::string string);
@@ -20,8 +19,10 @@ namespace contacts {
         /**
          * Android SDK: nativeInit
          * Initialization. Pass in JVM and callback listener.
+         * 1. Save JVM instance
+         * 2. Create EventListener object and save in vector.
          * */
-        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeAttachListener(JNIEnv *env, jobject listener);
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeAttachListener(JNIEnv *env, jobject jclass, jobject listener);
 
         /**
          * Android SDK: nativeGetContactList
@@ -56,7 +57,7 @@ namespace contacts {
          * Android SDK: nativeTestCallbackFunc
          * @output jstring: timestamp of last DB server update
          * */
-        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env);
+        extern "C" JNIEXPORT void JNICALL Java_com_contacts_Contacts_nativeTestCallbackFunc(JNIEnv *env, jobject thiz);
     }
 
 }
