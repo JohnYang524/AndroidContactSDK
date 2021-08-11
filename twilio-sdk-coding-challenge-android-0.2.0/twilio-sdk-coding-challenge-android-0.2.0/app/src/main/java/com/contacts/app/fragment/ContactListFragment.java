@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.contacts.Contacts;
-import com.contacts.helper.ContactsManger;
+import com.contacts.helper.ContactsManager;
 import com.contacts.app.helpers.ContactListAdapter;
 import com.contacts.app.R;
 import com.contacts.app.databinding.FragmentContactListBinding;
@@ -90,7 +90,7 @@ public class ContactListFragment extends Fragment{
     }
 
     private void createContactEventListeners() {
-        Contacts.getInstance().setEventListener(new ContactsManger.ContactEventListener() {
+        Contacts.getInstance().setEventListener(new ContactsManager.ContactEventListener() {
             @Override
             public void onContactListLoaded() {
                 if (adapter != null) {

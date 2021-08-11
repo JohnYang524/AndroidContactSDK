@@ -104,7 +104,6 @@ namespace contacts {
      * Step2: Notify all listeners stored in vector, even though in our test case there is only 1 listener.
      * Step3: Detach current thread
      * */
-    //
     void onContactUpdated(_jstring *updatedContact_) {
         //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "onContactUpdated");
         try {

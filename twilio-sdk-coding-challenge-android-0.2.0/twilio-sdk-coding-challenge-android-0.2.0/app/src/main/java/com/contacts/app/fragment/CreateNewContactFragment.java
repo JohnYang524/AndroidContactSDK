@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.contacts.Contacts;
-import com.contacts.helper.ContactsManger;
+import com.contacts.helper.ContactsManager;
 import com.contacts.app.R;
 import com.contacts.app.databinding.FragmentCreateNewBinding;
 import com.contacts.models.Contact;
@@ -25,7 +25,7 @@ import com.contacts.utils.Util;
  * */
 public class CreateNewContactFragment extends Fragment {
     private static final boolean mIsDebuggable = true; // TODO: use value in config file
-    private static final String TAG = ContactsManger.class.getName();
+    private static final String TAG = ContactsManager.class.getName();
 
     private FragmentCreateNewBinding binding;
 

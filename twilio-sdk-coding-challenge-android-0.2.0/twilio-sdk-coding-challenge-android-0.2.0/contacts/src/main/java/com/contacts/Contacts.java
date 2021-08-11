@@ -2,7 +2,7 @@ package com.contacts;
 
 import android.content.Context;
 
-import com.contacts.helper.ContactsManger;
+import com.contacts.helper.ContactsManager;
 import com.contacts.models.Contact;
 
 import java.util.List;
@@ -32,15 +32,15 @@ public class Contacts {
     public native String nativeGetContactList();// Get a list all of user's contacts
     public native String nativeGetUpdatedContactListAfter(String timestamp);// Get a list all of users contacts that were updated/created after certain timestamp
     public native String nativeGetLastUpdateTime();
-    public native void nativeAddNewContact(String contactData, ContactsManger.ContactEventListener listener);
+    public native void nativeAddNewContact(String contactData, ContactsManager.ContactEventListener listener);
     public native void nativeSimulateContactUpdateEvent();// Test event callback function when server data updated
 
-    private native void nativeAttachListener(ContactsManger.ContactEventListener listener);
+    private native void nativeAttachListener(ContactsManager.ContactEventListener listener);
 
-    private ContactsManger manager;
+    private ContactsManager manager;
 
     private Contacts() {
-        manager = new ContactsManger();
+        manager = new ContactsManager();
     }
 
     public static Contacts getInstance()
@@ -71,7 +71,7 @@ public class Contacts {
         manager.onContactDataUpdate(newContactData, context);
     }
 
-    public void setEventListener(ContactsManger.ContactEventListener listener) {
+    public void setEventListener(ContactsManager.ContactEventListener listener) {
         manager.setEventListener(listener);
         nativeAttachListener(listener);// Attach listener to C++
     }

@@ -20,9 +20,9 @@ import java.util.concurrent.Executors;
 /**
  * Class for managing contact data update flow and keeping business logic.
  */
-public class ContactsManger {
+public class ContactsManager {
     private static final boolean mIsDebuggable = true; // TODO: use value in config file
-    private static final String TAG = ContactsManger.class.getName();
+    private static final String TAG = ContactsManager.class.getName();
 
     // Event listeners to handle callbacks
     public interface ContactEventListener {
@@ -35,7 +35,7 @@ public class ContactsManger {
     private List<Contact> mContactList;
     private Executor executor;
 
-    public ContactsManger() {
+    public ContactsManager() {
         mContactList = new ArrayList<>();
     }
 
