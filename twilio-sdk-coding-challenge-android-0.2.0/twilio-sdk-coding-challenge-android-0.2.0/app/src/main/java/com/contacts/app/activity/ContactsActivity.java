@@ -1,5 +1,6 @@
 package com.contacts.app.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +13,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.contacts.Contacts;
-import com.contacts.helper.ContactsManger;
 
 import com.contacts.app.helpers.ContactActivityObserver;
 import com.contacts.app.R;
@@ -29,7 +29,7 @@ import com.contacts.app.databinding.ActivityContactsBinding;
 
 public class ContactsActivity extends AppCompatActivity {
     private static final boolean mIsDebuggable = true; // TODO: use value in config file
-    private static final String TAG = ContactsManger.class.getName();
+    private static final String TAG = ContactsActivity.class.getName();
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityContactsBinding binding;
@@ -39,6 +39,7 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityContactsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getLifecycle().addObserver(new ContactActivityObserver());
 

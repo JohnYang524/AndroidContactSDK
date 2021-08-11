@@ -73,7 +73,7 @@ public class Contacts {
 
     public void setEventListener(ContactsManger.ContactEventListener listener) {
         manager.setEventListener(listener);
-        nativeAttachListener(listener);// nativeInit after listener set
+        nativeAttachListener(listener);// Attach listener to C++
     }
 
     public void restoreContactData(Context context) {

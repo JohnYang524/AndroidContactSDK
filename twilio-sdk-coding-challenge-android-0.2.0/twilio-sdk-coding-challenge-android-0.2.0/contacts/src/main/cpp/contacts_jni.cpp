@@ -107,43 +107,48 @@ namespace contacts {
     //
     void onContactUpdated(_jstring *updatedContact_) {
         //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "onContactUpdated");
-        if (cachedJVM != nullptr) {
-            JNIEnv *env; // Get current JNIEvn from JVM
+        try {
+            if (cachedJVM != nullptr) {
+                JNIEnv *env; // Get current JNIEvn from JVM
 
-            JavaVMAttachArgs args;
-            args.version = JNI_VERSION_1_6; // set JNI version
-            args.name = NULL; // We might want to give the java thread a name
-            args.group = NULL; // we might want to assign the java thread to a ThreadGroup
+                JavaVMAttachArgs args;
+                args.version = JNI_VERSION_1_6; // set JNI version
+                args.name = NULL; // We might want to give the java thread a name
+                args.group = NULL; // we might want to assign the java thread to a ThreadGroup
 
-            int getEnvStat = cachedJVM->GetEnv((void **)&env, JNI_VERSION_1_6);
-            if (getEnvStat == JNI_EDETACHED) {
-                if (cachedJVM->AttachCurrentThread(&env, &args) != 0) {
-                    //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Failed to attach.");
+                int getEnvStat = cachedJVM->GetEnv((void **) &env, JNI_VERSION_1_6);
+                if (getEnvStat == JNI_EDETACHED) {
+                    if (cachedJVM->AttachCurrentThread(&env, &args) != 0) {
+                        //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Failed to attach.");
+                        return;
+                    }
+                } else if (getEnvStat == JNI_OK) {
+                    //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Already attached.");
+                } else if (getEnvStat == JNI_EVERSION) {
+                }
+
+                if (env == nullptr)
                     return;
+
+                // Notify all listeners, even though in our test case there is only 1 listener.
+                if (!eventListeners.empty()) {
+                    for (EventListener *listener : eventListeners) {
+                        env->CallVoidMethod(listener->mListener,
+                                            listener->mMethodID, updatedContact_);
+                    }
                 }
-            } else if (getEnvStat == JNI_OK) {
-                //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Already attached.");
-            } else if (getEnvStat == JNI_EVERSION) {
-            }
 
-            if (env == nullptr)
-                return;
-
-            // Notify all listeners, even though in our test case there is only 1 listener.
-            if (!eventListeners.empty()) {
-                for (EventListener *listener : eventListeners) {
-                    env->CallVoidMethod(listener->mListener,
-                                        listener->mMethodID, updatedContact_);
+                if (env->ExceptionCheck()) {
+                    env->ExceptionDescribe();
+                }
+                // Detach
+                if (getEnvStat == JNI_EDETACHED) {
+                    cachedJVM->DetachCurrentThread();
                 }
             }
-
-            if (env->ExceptionCheck()) {
-                env->ExceptionDescribe();
-            }
-            // Detach
-            if (getEnvStat == JNI_EDETACHED) {
-                cachedJVM->DetachCurrentThread();
-            }
+        }  catch (int e) {
+            // Known issue: sometimes original listener class might get detached from context because of event like orientation change
+            //__android_log_write(ANDROID_LOG_VERBOSE, "JNIClass", "Already attached.");
         }
 
     }
