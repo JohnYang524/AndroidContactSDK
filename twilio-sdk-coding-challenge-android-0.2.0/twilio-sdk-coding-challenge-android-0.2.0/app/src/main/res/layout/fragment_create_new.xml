@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="First Name:"
+        android:text="@string/create_first_name_tag"
         app:layout_constraintBottom_toTopOf="@+id/et_new_first_name"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginBottom="30dp"
-        android:hint="Enter contact first name"
+        android:hint="@string/create_first_name_hint"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/tv_new_last_name"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Last Name:"
+        android:text="@string/create_last_name_tag"
         app:layout_constraintBottom_toTopOf="@+id/et_new_last_name"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginBottom="30dp"
-        android:hint="Enter contact last name"
+        android:hint="@string/create_last_name_hint"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/tv_new_phone_num"
         app:layout_constraintStart_toStartOf="parent" />
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Phone Number:"
+        android:text="@string/create_phone_num_tag"
         app:layout_constraintBottom_toTopOf="@+id/et_new_phone_num"
         app:layout_constraintStart_toStartOf="parent" />
 

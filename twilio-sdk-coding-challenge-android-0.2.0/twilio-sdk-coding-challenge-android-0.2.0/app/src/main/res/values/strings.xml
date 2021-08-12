@@ -7,5 +7,9 @@
     <string name="menu_item_simulate_callback">Simulate a server update</string>>
     <string name="menu_item_restore_data">Restore contact data</string>>
     <string name="simulate_callback_response">Received contact-updated event callback, updating db data...</string>>
-
+    <string name="create_first_name_tag">First Name:</string>
+    <string name="create_first_name_hint">Enter contact first name</string>
+    <string name="create_last_name_tag">Last Name:</string>
+    <string name="create_last_name_hint">Enter contact last name</string>
+    <string name="create_phone_num_tag">Phone Number:</string>
 </resources>
