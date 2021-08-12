@@ -19,7 +19,7 @@ import com.contacts.app.R;
 import com.contacts.app.databinding.ActivityContactsBinding;
 
 /**
- * Use this application to demonstrate the capabilities of the Contacts SDK you have implemented.
+ * This application to demonstrate the capabilities of the Contacts SDK you have implemented.
  * Specifically this app should contain the following features:
  *
  * 1. List all of a user's contacts.
